@@ -3,7 +3,7 @@ import { Contract, Wallet } from 'ethers';
 import { useAccount } from 'wagmi';
 import { useEthersSigner } from '../hooks/useEthersSigner';
 import { useZamaInstance } from '../hooks/useZamaInstance';
-import { CONTRACT_ADDRESS, CONTRACT_ABI, ZERO_ADDRESS } from '../config/contracts';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../config/contracts';
 import { encryptCidWithAddress } from '../utils/encryption';
 import { pseudoUploadToIpfs } from '../utils/ipfs';
 
@@ -33,8 +33,7 @@ export function FileUpload({ onUploaded }: FileUploadProps) {
       ipfsHash &&
       encryptedCid &&
       ephemeralAddress &&
-      !zamaLoading &&
-      CONTRACT_ADDRESS !== ZERO_ADDRESS
+      !zamaLoading
     );
   }, [address, encryptedCid, ephemeralAddress, ipfsHash, selectedFile, zamaLoading]);
 
@@ -75,10 +74,6 @@ export function FileUpload({ onUploaded }: FileUploadProps) {
   const handleSubmit = async () => {
     if (!selectedFile || !address || !instance || !encryptedCid || !ephemeralAddress) {
       setMessage('Missing required data to upload.');
-      return;
-    }
-    if (CONTRACT_ADDRESS === ZERO_ADDRESS) {
-      setMessage('Set the Sepolia contract address before uploading.');
       return;
     }
 

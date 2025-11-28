@@ -1,4 +1,4 @@
-export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000' as const;
+// export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000' as const;
 
 // Update this once the contract is deployed on Sepolia and the deployments/sepolia/ObscuraDrive.json
 // file contains the live address.

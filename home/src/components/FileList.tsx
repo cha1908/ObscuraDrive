@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useZamaInstance } from '../hooks/useZamaInstance';
 import { useEthersSigner } from '../hooks/useEthersSigner';
-import { CONTRACT_ADDRESS, CONTRACT_ABI, ZERO_ADDRESS } from '../config/contracts';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../config/contracts';
 import { decryptCidWithAddress } from '../utils/encryption';
 
 type StoredFile = {
@@ -32,7 +32,7 @@ export function FileList({ refreshKey }: FileListProps) {
     functionName: 'getFiles',
     args: address ? [address] : undefined,
     query: {
-      enabled: Boolean(address) && CONTRACT_ADDRESS !== ZERO_ADDRESS,
+      enabled: Boolean(address),
     },
   });
 
@@ -57,10 +57,6 @@ export function FileList({ refreshKey }: FileListProps) {
   const decryptFile = async (file: StoredFile) => {
     if (!instance || !address) {
       setError('Missing Zama instance or wallet connection.');
-      return;
-    }
-    if (CONTRACT_ADDRESS === ZERO_ADDRESS) {
-      setError('Deploy to Sepolia and set CONTRACT_ADDRESS.');
       return;
     }
     setError('');
@@ -147,11 +143,6 @@ export function FileList({ refreshKey }: FileListProps) {
         </p>
       </div>
 
-      {CONTRACT_ADDRESS === ZERO_ADDRESS ? (
-        <div className="empty-state">
-          <p className="muted">Set the Sepolia deployment address in config/contracts.ts.</p>
-        </div>
-      ) : null}
 
       {isLoading ? (
         <div className="empty-state">
