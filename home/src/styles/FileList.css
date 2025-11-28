@@ -1,0 +1,60 @@
+.files-card {
+  min-height: 520px;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.file-row {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.file-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.file-name {
+  margin: 0;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.file-date {
+  margin: 0;
+  color: #9fb3c8;
+}
+
+.file-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.decrypted-box {
+  background: rgba(31, 41, 55, 0.5);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.85rem;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .file-row {
+    grid-template-columns: 1fr;
+  }
+
+  .file-actions {
+    justify-content: flex-start;
+  }
+}
