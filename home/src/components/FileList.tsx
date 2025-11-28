@@ -44,14 +44,28 @@ export function FileList({ refreshKey }: FileListProps) {
 
   const files: StoredFile[] = useMemo(() => {
     if (!Array.isArray(data)) return [];
-    return data.map((file: any, index: number) => ({
-      id: index,
-      uploader: file[0],
-      fileName: file[1],
-      encryptedCid: file[2],
-      encryptedKey: file[3],
-      createdAt: Number(file[4]),
-    }));
+    return data
+      .map((file: any, index: number) => {
+        const uploader = file?.uploader ?? file?.[0];
+        const fileName = file?.fileName ?? file?.[1];
+        const encryptedCid = file?.encryptedCid ?? file?.[2] ?? '';
+        const encryptedKey = file?.encryptedKey ?? file?.[3] ?? '';
+        const createdAt = Number(file?.createdAt ?? file?.[4] ?? 0);
+
+        if (!encryptedCid || !encryptedKey || !fileName) {
+          return null;
+        }
+
+        return {
+          id: index,
+          uploader,
+          fileName,
+          encryptedCid,
+          encryptedKey,
+          createdAt,
+        };
+      })
+      .filter(Boolean) as StoredFile[];
   }, [data]);
 
   const decryptFile = async (file: StoredFile) => {
@@ -165,7 +179,9 @@ export function FileList({ refreshKey }: FileListProps) {
                 {file.createdAt ? new Date(file.createdAt * 1000).toLocaleString() : 'timestamp'}
               </p>
               <p className="mono small">
-                {file.encryptedCid.slice(0, 22)}...
+                {typeof file.encryptedCid === 'string' && file.encryptedCid.length > 0
+                  ? `${file.encryptedCid.slice(0, 22)}...`
+                  : 'encrypted CID unavailable'}
               </p>
             </div>
 
